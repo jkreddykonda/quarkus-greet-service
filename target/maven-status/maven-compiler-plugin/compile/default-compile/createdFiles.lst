@@ -1,0 +1,3 @@
+com\test\quarkus\service\GreetingService.class
+META-INF\panache-archive.marker
+com\test\quarkus\controller\GreetingController.class

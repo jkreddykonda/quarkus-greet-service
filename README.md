@@ -1,64 +1,98 @@
+# Quarkus Greet Service - Technical Assessment
 
-## Quarkus Coding Exercises
-
-This section covers three Quarkus-based coding tasks using CDI, Panache, and MicroProfile.
-
----
-
-## 2.1 - REST Endpoint with Path/Query Params and CDI
-
-This task builds a greeting endpoint that accepts path and optional query parameters.
-
-- Created a CDI bean GreetingService with greet(String name)  
-- Injected GreetingService into a REST controller  
-- Exposed a GET endpoint: `/greet/{name}?suffix=Smith`  
-- Appends suffix if provided — returns: `"Hello AliceSmith!"`
+This project is developed as part of a technical assessment using **Quarkus 3.6.2**, **Java 21**, and **Maven**.
 
 ---
 
-## 2.2 - Persistence with Panache
+## Project Structure
 
-This task implements basic CRUD operations using PanacheRepository.
-
-- Created a `Person` JPA entity with fields: `name`, `birthDate`  
-- Created `PersonRepository` implementing PanacheRepository  
-- Configured H2 as in-memory dev database (no persistence.xml needed)  
-- Exposed REST endpoints:  
-- `POST /persons` — Add a new person  
-- `GET /persons` — List all persons  
-- `GET /persons/search/{name}` — Find person by name  
-- JSON body example:
-```json
-{
-  "name": "Alice",
-  "birthDate": "1995-06-15"
-}
-```
+- `controller/` ➔ REST API layer for Person management.
+- `entity/` ➔ JPA Entity for Person data.
+- `repository/` ➔ Panache Repository for CRUD operations on Person.
+- `test/` ➔ JUnit 5 test cases for API validation.
 
 ---
 
-## 2.3 - MicroProfile Health Check
+## Use Cases Implemented
 
-This task adds a custom health check to the `/q/health` endpoint.
+- **Create a new Person**  
+  ➔ `POST /persons`  
+  ➔ Accepts JSON input `{ "name": "Alice", "birthDate": "1995-06-15" }`
+  
+- **List all Persons**  
+  ➔ `GET /persons`
+  
+- **Find a Person by Name**  
+  ➔ `GET /persons/search/{name}`
 
-- Implemented a class `DatabaseConnectionHealthCheck`  
-- Annotated with `@Readiness`  
-- Simulated check result: `"Database connections health check"`  
-- Health endpoint: `GET /q/health`  
-- Returns:
-```json
-{
-  "status": "UP",
-  "checks": [
-    {
-      "name": "Database connections health check",
-      "status": "UP",
-      "data": {
-        "<default>": "UP"
-      }
-    }
-  ]
-}
-```
+- **Health Check Endpoint**  
+  ➔ `GET /q/health`  
+  ➔ Verifies basic application health.
+
+---
+
+## Technologies Used
+
+- Java 21
+- Quarkus 3.6.2
+- RESTEasy Reactive
+- Panache ORM
+- H2 In-Memory Database (development mode)
+- JUnit 5
+
+---
+
+## How to Run
+
+1. **Start Quarkus App in Dev Mode:**
+
+   ```bash
+   ./mvnw compile quarkus:dev
+   ```
+
+2. **Access Application:**
+   - API Base URL: `http://localhost:8081`
+
+3. **Swagger UI (Optional):**
+   - You can add Swagger UI extension later if needed.
+
+---
+
+## Sample API Calls
+
+- **Create a Person**
+  ```bash
+  POST http://localhost:8081/persons
+  Content-Type: application/json
+  
+  {
+    "name": "Alice",
+    "birthDate": "1995-06-15"
+  }
+  ```
+
+- **Get All Persons**
+  ```bash
+  GET http://localhost:8081/persons
+  ```
+
+- **Search Person by Name**
+  ```bash
+  GET http://localhost:8081/persons/search/Alice
+  ```
+
+- **Health Check**
+  ```bash
+  GET http://localhost:8081/q/health
+  ```
+
+---
+
+## Notes
+
+- The database used is **H2** (memory only for dev).
+- No external configuration needed to start.
+- Application automatically reloads on code changes in dev mode.
+- Health Check includes custom simulated DB status check.
 
 ---
